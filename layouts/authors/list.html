@@ -1,0 +1,28 @@
+{{ define "main"}}
+
+	<h1>{{ .Params.name }}</h1>
+		<div class="img"> 
+	        {{ with $img := .Page.Resources.GetMatch (printf "*%s*" (.Params.img)) }}
+	        	{{ $thumb := $img.Fill "200x200 Center" }}
+	        	 <img class="img-fluid" max-width="200" src="{{ $thumb.Permalink }}">
+	        {{ end }}	     
+    	</div>
+	
+
+	<h2>Bio</h2>
+	{{ .Content }}
+	{{ with .Params.twitter }}
+	  <p>
+	    <a href="https://twitter.com/{{  .  }}">
+	      Follow {{ $.Params.name }} on Twitter
+	    </a>
+	  </p>
+	{{ end }}
+
+	<h2>Articles</h2>
+	<ul>
+	{{ range .Data.Pages }}
+	    <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+	{{ end }}
+	</ul>
+{{ end }}
