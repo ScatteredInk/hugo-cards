@@ -12,18 +12,41 @@
                 <div class="panel panel-default">
                   
                   {{ if .Params.img }}
-                  <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Params.img }}" alt="{{ .Title }}">
+                    {{ $siteurl := (.RelPermalink) }}
+                    {{ $sitetitle := (.Title) }}
+                    {{ $imgcredit := .Params.imgcredit }}
+                    {{ with .Resources.GetMatch (.Params.img) }}
+                      {{ $thumb := .Fill "800x600 Top" }}
+                      <img width="100%" src="{{ $thumb.Permalink }}" alt="{{ $imgcredit }}">
+                    {{ end }}
                   {{ else }}
                   <img width="100%" src="{{ .Site.BaseURL }}images/{{ .Site.Params.defaultImage }}" alt="{{ .Site.Title }}">
                   {{ end }}
                   
                   <div class="panel-body">
-                    <h3 class="panel-title pull-left">{{ .Title | truncate 25 }}</h3><span class="post-meta pull-right"><small>{{ .Date.Format "January 2, 2006" }}</small></span>
+                    <h3 class="panel-title pull-left">{{ .Title | truncate 50 }}</h3><span class="post-meta pull-right"></span>
+                  </div>
+
+                  <div class="panel-body"><span class="post-meta pull-left"></span>
+                    {{ if .Params.series }}
+                      {{ range .Params.series }}
+                      <small> {{ upper . }} </small>
+                      {{ end }}
+                    {{ end }}
+                    
                   </div>
                   
-                  <div class="panel-body"><small>
-                    {{ .Summary | plainify | truncate 180 }}</small>
+
+                  <div class="panel-body">
+                    <small>
+                    {{ if .Params.authors }}
+                      {{ delimit .Params.authors ", " " and " }}
+                    {{ end }}
+
+                    {{ .Summary | truncate 180 }}
+                    </small>
                   </div>
+
                 </div>
                 </a>
             </div>
@@ -50,7 +73,7 @@
             {{ if eq .PageNumber ($scratch.Get "current") }}
               <li class="active"><span><em>{{ .PageNumber }}</em></span></li>
             {{ else }}
-            <li><a href="{{ .URL }}">{{ .PageNumber }}</a></li>
+            <li><a href="{{ .Params.URL }}">{{ .PageNumber }}</a></li>
             {{ end }}
           {{ end }}
 

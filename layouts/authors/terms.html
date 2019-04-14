@@ -1,0 +1,16 @@
+{{ define "main" }}
+
+<div class="row">
+<div class="col-md-12">
+
+	<h1 class="post-title">Authors</h1>
+	<ul>
+		{{ range .Data.Pages }}
+  			<li><a href="{{ .Permalink }}">{{ .Params.name }}</a></li>
+		{{ end }}
+	</ul>
+
+</div>
+</div>
+
+{{ end }}
