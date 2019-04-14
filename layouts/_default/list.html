@@ -43,7 +43,7 @@
                       {{ delimit .Params.authors ", " " and " }}
                     {{ end }}
 
-                    {{ .Summary | truncate 180 }}
+                    {{ .Params.summary | truncate 180 }}
                     </small>
                   </div>
 
